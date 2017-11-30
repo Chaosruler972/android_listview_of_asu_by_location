@@ -2,12 +2,14 @@
     <string name="app_name">home_ex2</string>
 
     <!--
+
     <string name="interval_sync_time">0</string>
 
+    60000
     -->
 
-    <string name="interval_sync_time">60000</string>
 
+    <string name="interval_sync_time">60000</string>
     <string name="interval_sync_dist">10</string>
 
     <string name="two_minutes">120000</string>
@@ -16,6 +18,8 @@
     <string name="max_ASU">97</string>
 
     <string name="date_pattern">HH:mm:ss dd-MM-yyyy</string>
+
+    <string name="error_code">255</string>
 
     <!-- database strings -->
     <string name="DB_FILE_NAME">klita.db</string>
@@ -52,9 +56,6 @@
 
     <string name="unsuffcied_premission">Not enough premissions!</string>
 
-
-    <string name="getdbm">getDbm</string>
-    <string name="getAsuLevel">getAsuLevel</string>
 
     <!-- asu ranges for colors -->
     <string name="asu_min1">0</string>

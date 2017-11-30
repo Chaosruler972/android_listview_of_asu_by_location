@@ -1,10 +1,12 @@
 package com.example.chaosruler.home_ex2
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.os.Build
 import android.os.Bundle
+import android.telephony.*
 import android.widget.ListView
 
 import java.time.Instant
@@ -13,10 +15,12 @@ import java.util.*
 /**
  * Created by chaosruler on 11/30/17.
  */
-class location_list(private var context: Context, private var reception_database_helper: reception_database_helper, private var asu_listener: asu_listener,private var list_view:ListView) : LocationListener
+class location_list(private var context: Context, private var reception_database_helper: reception_database_helper, private var telephone_manager: TelephonyManager,private var list_view:ListView) : LocationListener
 {
     private var last_known_location:Location? = null
 
+    private var ERROR = context.getString(R.string.error_code).toInt()
+    @SuppressLint("MissingPermission")
     override fun onLocationChanged(location: Location?)
     {
         if(location!=null)
@@ -36,7 +40,9 @@ class location_list(private var context: Context, private var reception_database
             /*
                 grabs latest updated ASU value
              */
-            var asu = asu_listener.signalStrengthAsuLevel
+            var asu = read_max(telephone_manager.allCellInfo)
+            if(asu == ERROR)
+                return
 
             /*
                 checks if ASU level is within range
@@ -50,7 +56,10 @@ class location_list(private var context: Context, private var reception_database
             }
 
             //updated listview adapter, garbage collector will kill the previous
-            list_view.adapter = listview_adapter(context,R.layout.listview_item,reception_database_helper.get_entire_db(),reception_database_helper)
+            if(MainActivity.isOrdered)
+                list_view.adapter = listview_adapter(context,R.layout.listview_item,reception_database_helper.get_entire_db(MainActivity.isAsu,MainActivity.isAscending),reception_database_helper)
+            else
+                list_view.adapter = listview_adapter(context,R.layout.listview_item,reception_database_helper.get_entire_db(),reception_database_helper)
             last_known_location = location
         }
     }
@@ -67,6 +76,35 @@ class location_list(private var context: Context, private var reception_database
     override fun onProviderDisabled(provider: String?)
     {
 
+    }
+
+
+    private fun read_max(list:List<CellInfo>):Int
+    {
+        var max = -1
+        for(item in list)
+        {
+            var currentAsu = get_asu(item)
+            if(currentAsu > max)
+                max=currentAsu
+        }
+        if(max == -1)
+            max=ERROR
+        return max
+    }
+
+    private fun get_asu(cellinfo:CellInfo):Int
+    {
+        return if(cellinfo is CellInfoLte)
+            cellinfo.cellSignalStrength.asuLevel
+        else if(cellinfo is CellInfoCdma)
+            cellinfo.cellSignalStrength.asuLevel
+        else if(cellinfo is CellInfoGsm)
+            cellinfo.cellSignalStrength.asuLevel
+        else if(cellinfo is CellInfoWcdma)
+            cellinfo.cellSignalStrength.asuLevel
+        else
+            ERROR
     }
 
 }

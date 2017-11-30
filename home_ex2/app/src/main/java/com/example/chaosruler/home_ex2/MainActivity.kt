@@ -1,6 +1,7 @@
 package com.example.chaosruler.home_ex2
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -49,7 +50,6 @@ class MainActivity : Activity()
 
 
     private var reception_db:reception_database_helper? = null
-    private var phone_state_listen:asu_listener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -105,6 +105,7 @@ class MainActivity : Activity()
 
     }
 
+
     private fun init_location_manager()
     {
         /*
@@ -116,16 +117,37 @@ class MainActivity : Activity()
             /*
             inits a new location service with access to internal items
              */
-            location_listener = location_list(baseContext,reception_db!!,phone_state_listen!!,main_list_view)
+            location_listener = location_list(baseContext,reception_db!!,telephone_manager!!,main_list_view)
             /*
                 register for update locations service
              */
-            locationManager?.requestLocationUpdates(best_location(), MIN_TIME_FOR_UPDATE, MIN_DIS_FOR_UPFATE, location_listener)
+
+            locationManager?.requestLocationUpdates(best_location(), 0, MIN_DIS_FOR_UPFATE.toFloat(), location_listener)
+
+            location_update_thread()
         }
         catch(ex: SecurityException)
         {
 
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun location_update_thread()
+    {
+        Thread(
+         {
+            while (true)
+            {
+                try
+                {
+                    Thread.sleep(getString(R.string.interval_sync_time).toLong())
+                }
+                catch (e:InterruptedException){}
+
+                runOnUiThread {location_listener!!.onLocationChanged(locationManager!!.getLastKnownLocation(best_location())) }
+            }
+        }).start()
     }
 
     private fun best_location():String
@@ -145,26 +167,6 @@ class MainActivity : Activity()
             grabs service
          */
         telephone_manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
-        /*
-            inits new ASU listener
-         */
-        phone_state_listen = asu_listener(this)
-
-        /*
-            inits listener states
-         */
-        telephone_manager!!.listen(phone_state_listen,
-        PhoneStateListener.LISTEN_CALL_STATE
-        or PhoneStateListener.LISTEN_CELL_INFO // Requires API 17
-
-        or PhoneStateListener.LISTEN_CELL_LOCATION
-        or PhoneStateListener.LISTEN_DATA_ACTIVITY
-        or PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
-        or PhoneStateListener.LISTEN_SERVICE_STATE
-        or PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
-        or PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR
-        or PhoneStateListener.LISTEN_MESSAGE_WAITING_INDICATOR)
     }
 
 
@@ -177,6 +179,9 @@ class MainActivity : Activity()
                 {
                     // case we should order by ascending
                     main_list_view.adapter = listview_adapter(this,R.layout.listview_item,reception_db!!.get_entire_db(true,true),reception_db!!)
+                    isOrdered = true
+                    isAsu = true
+                    isAscending = true
                     //change button text for new mode
                     main_btn_sort_asu.text = getString(R.string.btn_sort_asu_desc)
                 }
@@ -184,6 +189,9 @@ class MainActivity : Activity()
                 {
                     // case we should order by descending
                     main_list_view.adapter = listview_adapter(this,R.layout.listview_item,reception_db!!.get_entire_db(true,false),reception_db!!)
+                    isOrdered = true
+                    isAsu = true
+                    isAscending = false
                     //change button text for new mode
                     main_btn_sort_asu.text = getString(R.string.btn_sort_asu_asc)
                 }
@@ -197,6 +205,9 @@ class MainActivity : Activity()
                 {
                     // case we should order by ascending
                     main_list_view.adapter = listview_adapter(this,R.layout.listview_item,reception_db!!.get_entire_db(false,true),reception_db!!)
+                    isOrdered = true
+                    isAsu = false
+                    isAscending = true
                     //change button text for new mode
                     main_btn_sort_date.text = getString(R.string.btn_sort_date_desc)
                 }
@@ -204,6 +215,9 @@ class MainActivity : Activity()
                 {
                     // case we should order by descending
                     main_list_view.adapter = listview_adapter(this,R.layout.listview_item,reception_db!!.get_entire_db(false,false),reception_db!!)
+                    isOrdered = true
+                    isAsu = false
+                    isAscending = false
                     //change button text for new mode
                     main_btn_sort_date.text = getString(R.string.btn_sort_date_asc)
                 }
@@ -288,7 +302,12 @@ class MainActivity : Activity()
          */
         if(locationManager!=null)
             locationManager!!.removeUpdates(location_listener)
-        if(telephone_manager!=null)
-            telephone_manager!!.listen(phone_state_listen,PhoneStateListener.LISTEN_NONE)
+    }
+
+    companion object
+    {
+        var isOrdered:Boolean = false
+        var isAsu:Boolean = false
+        var isAscending:Boolean = false
     }
 }
