@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">home_ex2</string>
+
+    <!--
+    <string name="interval_sync_time">0</string>
+
+    -->
+
+    <string name="interval_sync_time">60000</string>
+
+    <string name="interval_sync_dist">10</string>
+
+    <string name="two_minutes">120000</string>
+
+    <string name="min_ASU">0</string>
+    <string name="max_ASU">97</string>
+
+    <string name="date_pattern">HH:mm:ss dd-MM-yyyy</string>
+
+    <!-- database strings -->
+    <string name="DB_FILE_NAME">klita.db</string>
+    <string name="KLITA_TABLE_NAME">reception</string>
+    <string name="KLITA_DB_VERSION">1</string>
+
+    <string name="klita_ID">_id</string>
+    <string name="klita_ID_type"> INTEGER PRIMARY KEY AUTOINCREMENT</string>
+
+    <string name="klita_latitude">latitude</string>
+    <string name="klita_latitude_type">INTEGER</string>
+
+    <string name="klita_longtitude">longtitude</string>
+    <string name="klita_longtitude_type">REAL</string>
+
+    <string name="klita_ASU">asu</string>
+    <string name="klita_asu_type">REAL</string>
+
+    <string name="klita_date_str">date</string>
+    <string name="klita_date_str_type">TEXT</string>
+
+    <!-- button test -->
+
+    <string name="btn_sort_date_asc">Sort by ascending date</string>
+    <string name="btn_sort_date_desc">Sort by descending date</string>
+
+    <string name="btn_sort_asu_asc">Sort by ascending ASU</string>
+    <string name="btn_sort_asu_desc">Sort by descending ASU</string>
+
+    <!-- permission coes -->
+    <string name="location_GPS_permission_code">750</string>
+    <string name="location_wifi_permission_code">751</string>
+    <string name="phone_state_permission_code">752</string>
+
+    <string name="unsuffcied_premission">Not enough premissions!</string>
+
+
+    <string name="getdbm">getDbm</string>
+    <string name="getAsuLevel">getAsuLevel</string>
+
+    <!-- asu ranges for colors -->
+    <string name="asu_min1">0</string>
+    <string name="asu_mxa1">33</string>
+
+    <string name="asu_min2">34</string>
+    <string name="asu_max2">67</string>
+
+    <string name="asu_min3">68</string>
+    <string name="asu_max3">97</string>
+
+    <!-- list_view configuration text -->
+    <string name="list_asu">ASU: </string>
+    <string name="list_lat">Lat: </string>
+    <string name="list_long">Long: </string>
+</resources>
