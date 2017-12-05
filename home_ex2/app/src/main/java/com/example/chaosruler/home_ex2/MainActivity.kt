@@ -44,6 +44,7 @@ class MainActivity : Activity()
 
     private var telephone_manager:TelephonyManager? = null
 
+    private var phone_recep_listener:phone_recp_listener? = null
 
     private var location_listener:location_list? = null
 
@@ -122,9 +123,9 @@ class MainActivity : Activity()
                 register for update locations service
              */
 
-            locationManager?.requestLocationUpdates(best_location(), 0, MIN_DIS_FOR_UPFATE.toFloat(), location_listener)
+            locationManager?.requestLocationUpdates(best_location(), MIN_TIME_FOR_UPDATE, MIN_DIS_FOR_UPFATE.toFloat(), location_listener)
 
-            location_update_thread()
+            //location_update_thread() // amotz said that he changed the requirements
         }
         catch(ex: SecurityException)
         {
@@ -167,6 +168,10 @@ class MainActivity : Activity()
             grabs service
          */
         telephone_manager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        phone_recep_listener = phone_recp_listener()
+        phone_recp_listener.init_ERROR(baseContext,telephone_manager!!)
+       telephone_manager!!.listen(phone_recep_listener,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS)
+
     }
 
 
@@ -302,6 +307,9 @@ class MainActivity : Activity()
          */
         if(locationManager!=null)
             locationManager!!.removeUpdates(location_listener)
+        if(phone_recep_listener!=null && telephone_manager!=null)
+            telephone_manager!!.listen(phone_recep_listener,PhoneStateListener.LISTEN_NONE)
+
     }
 
     companion object

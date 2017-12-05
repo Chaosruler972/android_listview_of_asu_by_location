@@ -7,6 +7,7 @@ import android.location.LocationListener
 import android.os.Build
 import android.os.Bundle
 import android.telephony.*
+import android.util.Log
 import android.widget.ListView
 
 import java.time.Instant
@@ -19,7 +20,7 @@ class location_list(private var context: Context, private var reception_database
 {
     private var last_known_location:Location? = null
 
-    private var ERROR = context.getString(R.string.error_code).toInt()
+
     @SuppressLint("MissingPermission")
     override fun onLocationChanged(location: Location?)
     {
@@ -40,9 +41,14 @@ class location_list(private var context: Context, private var reception_database
             /*
                 grabs latest updated ASU value
              */
-            var asu = read_max(telephone_manager.allCellInfo)
-            if(asu == ERROR)
+
+
+            var asu = phone_recp_listener.get_max_from_all_signal_str()
+            if(asu == phone_recp_listener.ERROR || !phone_recp_listener.isGSM())
                 return
+
+           // if(asu == phone_recp_listener.ERROR)
+             //   return
 
             /*
                 checks if ASU level is within range
@@ -79,6 +85,8 @@ class location_list(private var context: Context, private var reception_database
     }
 
 
+    //reducted -- scans multiSIM format phones...
+    /*
     private fun read_max(list:List<CellInfo>):Int
     {
         var max = -1
@@ -92,7 +100,9 @@ class location_list(private var context: Context, private var reception_database
             max=ERROR
         return max
     }
-
+*/
+    //reducted - support all signals
+    /*
     private fun get_asu(cellinfo:CellInfo):Int
     {
         return if(cellinfo is CellInfoLte)
@@ -106,5 +116,6 @@ class location_list(private var context: Context, private var reception_database
         else
             ERROR
     }
+    */
 
 }

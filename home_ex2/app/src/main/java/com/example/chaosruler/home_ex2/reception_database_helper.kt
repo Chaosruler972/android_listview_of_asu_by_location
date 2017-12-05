@@ -50,6 +50,8 @@ class reception_database_helper(private val con: Context) : local_SQL_Helper(con
 
     public fun add_new_reception(input: klita_obj):Boolean
     {
+        if(input.get_asu() < 0) // patch for GSM only
+            return false
         var check_exists = find_reception_by_lat_long(input.get_lat(),input.get_long())
         if(check_exists != null) // exists, should update
         {

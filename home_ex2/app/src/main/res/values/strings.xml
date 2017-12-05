@@ -4,18 +4,19 @@
     <!--
 
     <string name="interval_sync_time">0</string>
+    <string name="interval_sync_time">60000</string>
 
     60000
     -->
 
 
-    <string name="interval_sync_time">60000</string>
+    <string name="interval_sync_time">0</string>
     <string name="interval_sync_dist">10</string>
 
     <string name="two_minutes">120000</string>
 
     <string name="min_ASU">0</string>
-    <string name="max_ASU">97</string>
+    <string name="max_ASU">31</string>
 
     <string name="date_pattern">HH:mm:ss dd-MM-yyyy</string>
 
@@ -59,16 +60,20 @@
 
     <!-- asu ranges for colors -->
     <string name="asu_min1">0</string>
-    <string name="asu_mxa1">33</string>
+    <string name="asu_mxa1">10</string>
 
-    <string name="asu_min2">34</string>
-    <string name="asu_max2">67</string>
+    <string name="asu_min2">11</string>
+    <string name="asu_max2">20</string>
 
-    <string name="asu_min3">68</string>
-    <string name="asu_max3">97</string>
+    <string name="asu_min3">21</string>
+    <string name="asu_max3">31</string>
 
     <!-- list_view configuration text -->
     <string name="list_asu">ASU: </string>
     <string name="list_lat">Lat: </string>
     <string name="list_long">Long: </string>
+
+
+    <!-- reflection method calls - kotlin errors requires this -->
+    <string name="reflection_GSM_ASU">getGsmSignalStrength</string>
 </resources>
