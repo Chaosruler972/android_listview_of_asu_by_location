@@ -19,7 +19,6 @@ class listview_adapter(context: Context?, resource: Int=R.layout.listview_item,p
     {
 //        super.getView(position, convertView, parent)
 
-
         var convertView = convertView
         // Get the data item for this position
         // Check if an existing view is being reused, otherwise inflate the view
