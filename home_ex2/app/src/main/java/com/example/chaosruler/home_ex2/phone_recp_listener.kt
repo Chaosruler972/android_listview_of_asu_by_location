@@ -16,6 +16,7 @@ class phone_recp_listener() : PhoneStateListener()
         public var asu_level:Int= ERROR
         public var telephone_manager:TelephonyManager? = null
         public var signalStrength:SignalStrength? = null
+        private var ctx:Context? = null
         private var GSM_SIGNAL_STRENGTH:String? = null
 
         public fun init_ERROR(context: Context,telephonyManager: TelephonyManager)
@@ -24,12 +25,14 @@ class phone_recp_listener() : PhoneStateListener()
            asu_level = ERROR
            telephone_manager = telephonyManager
            GSM_SIGNAL_STRENGTH = context.getString(R.string.reflection_GSM_ASU)
+           ctx = context
         }
 
         fun get_max_from_all_signal_str():Int = asu_level
 
 
 
+        /*
         public fun isGSM():Boolean
         {
             val networkType = telephone_manager!!.networkType
@@ -40,7 +43,7 @@ class phone_recp_listener() : PhoneStateListener()
                 else -> false // 5g?
             }
         }
-
+        */
 
 
 
@@ -53,15 +56,20 @@ class phone_recp_listener() : PhoneStateListener()
     override fun onSignalStrengthsChanged(signalStrength: SignalStrength)
     {
         super.onSignalStrengthsChanged(signalStrength)
+        var definations = signalStrength.toString().split(' ')
         asu_level = try
         {
-            if( isGSM() ) // signalStrength.isGsm can catch on both GSM and LTE|GSM!
+
+            if( telephone_manager!!.networkType == TelephonyManager.NETWORK_TYPE_LTE)
             {
-                signalStrength!!.gsmSignalStrength
+                definations.elementAt(8).toInt()
+            }
+            else if( signalStrength.isGsm && signalStrength.gsmSignalStrength!=99) // signalStrength.isGsm can catch on both GSM and LTE|GSM!
+            {
+                signalStrength.gsmSignalStrength
             }
             else
             {
-                Log.d("key",isGSM().toString())
                 ERROR
             }
         }
@@ -69,6 +77,6 @@ class phone_recp_listener() : PhoneStateListener()
         {
             ERROR
         }
-
+        Log.d("test", "Size :" + definations.size + " network manager: " + telephone_manager!!.networkType + " size is: " +  definations.elementAt(8) + " ASU is " + asu_level)
     }
 }
