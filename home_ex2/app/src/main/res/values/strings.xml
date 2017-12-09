@@ -10,7 +10,7 @@
     -->
 
 
-    <string name="interval_sync_time">0</string>
+    <string name="interval_sync_time">60000</string>
     <string name="interval_sync_dist">10</string>
 
     <string name="two_minutes">120000</string>
