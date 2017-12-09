@@ -37,7 +37,6 @@ class location_list(private var context: Context, private var reception_database
             {
                 Calendar.getInstance().time.time
             }
-
             /*
                 grabs latest updated ASU value
              */

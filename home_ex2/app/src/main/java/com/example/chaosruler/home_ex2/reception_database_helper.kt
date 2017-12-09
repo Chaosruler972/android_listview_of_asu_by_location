@@ -158,7 +158,7 @@ class reception_database_helper(private val con: Context) : local_SQL_Helper(con
          */
         var select_wildcard_from_receptions = get_db()
         select_wildcard_from_receptions.mapTo(// adds each result
-                receptions) { klita_obj( it[ID]!!.toInt(), it[LATITUDE]!!.toDouble(), it[LONGTITUDE]!!.toDouble(), it[DATE]!!.toString(), it[ASU]!!.toInt() ) }
+                receptions) { klita_obj( (it[ID]?:"0").toInt(), (it[LATITUDE]?:"0").toDouble(), (it[LONGTITUDE]?:"0").toDouble(), (it[DATE]?:"").toString(), (it[ASU]?:"0").toInt() ) }
         // returns results, receptions.size == 0 is code for empty table
         return receptions
     }
@@ -188,7 +188,7 @@ class reception_database_helper(private val con: Context) : local_SQL_Helper(con
             get_db(DATE,isAscending)
         }
         select_wildcard_from_receptions.mapTo(// adds each result
-                receptions) { klita_obj( it[ID]!!.toInt(), it[LATITUDE]!!.toDouble(), it[LONGTITUDE]!!.toDouble(), it[DATE]!!.toString(), it[ASU]!!.toInt() ) }
+                receptions) { klita_obj( (it[ID]?:"0").toInt(), (it[LATITUDE]?:"0").toDouble(), (it[LONGTITUDE]?:"0").toDouble(), (it[DATE]?:"").toString(), (it[ASU]?:"0").toInt() ) }
         // returns results, receptions.size == 0 is code for empty table
         return receptions
     }

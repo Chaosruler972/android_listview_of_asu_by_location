@@ -50,7 +50,6 @@ class phone_recp_listener() : PhoneStateListener()
     } // companion end
 
 
-
     override fun onSignalStrengthsChanged(signalStrength: SignalStrength)
     {
         super.onSignalStrengthsChanged(signalStrength)

@@ -123,7 +123,7 @@ class MainActivity : Activity()
                 register for update locations service
              */
 
-            locationManager?.requestLocationUpdates(best_location(), MIN_TIME_FOR_UPDATE, MIN_DIS_FOR_UPFATE.toFloat(), location_listener)
+            locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_FOR_UPDATE, MIN_DIS_FOR_UPFATE, location_listener)
 
             //location_update_thread() // amotz said that he changed the requirements
         }
