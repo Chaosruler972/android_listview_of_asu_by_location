@@ -134,7 +134,7 @@ abstract class local_SQL_Helper(context: Context, protected var DATABASE_NAME: S
         val values = ContentValues()
         for(item in items)
             values.put(item.key,item.value)
-        if(db.insertOrThrow(TABLE_NAME, null, values)>0)
+        if(db.insert(TABLE_NAME, null, values)>0)
             return true
         return false
     }
