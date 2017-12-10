@@ -41,7 +41,7 @@ class location_list(private var context: Context, private var reception_database
                 grabs latest updated ASU value
              */
 
-            Log.d("location","Location update")
+
             var asu = phone_recp_listener.get_max_from_all_signal_str()
             if(asu == phone_recp_listener.ERROR)
                 return
@@ -52,7 +52,8 @@ class location_list(private var context: Context, private var reception_database
             /*
                 checks if ASU level is within range
              */
-            Log.d("reception","Long: " + location.longitude + " LAT: " + location.latitude + " ASU: " + asu.toString())
+
+            Log.d("test","Long: " + location.longitude + " LAT: " + location.latitude + " ASU: " + asu.toString())
             if(asu<=context.getString(R.string.max_ASU).toInt() && asu>=context.getString(R.string.min_ASU).toInt())
             {
                 // creates new data

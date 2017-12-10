@@ -63,10 +63,10 @@ class phone_recp_listener() : PhoneStateListener()
 
             if( signalStrength.isGsm)
             {
-                if(signalStrength.gsmSignalStrength != 99)
+                if(signalStrength.gsmSignalStrength == 99)
                     ERROR
                 else
-                    signalStrength.gsmSignalStrength
+                     signalStrength.gsmSignalStrength
             }
             else
             {
@@ -77,5 +77,6 @@ class phone_recp_listener() : PhoneStateListener()
         {
             ERROR
         }
+
     }
 }
