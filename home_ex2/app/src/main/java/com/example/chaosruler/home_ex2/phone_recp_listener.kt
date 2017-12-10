@@ -55,18 +55,18 @@ class phone_recp_listener() : PhoneStateListener()
 
     override fun onSignalStrengthsChanged(signalStrength: SignalStrength)
     {
+
         super.onSignalStrengthsChanged(signalStrength)
         var definations = signalStrength.toString().split(' ')
         asu_level = try
         {
 
-            if( telephone_manager!!.networkType == TelephonyManager.NETWORK_TYPE_LTE)
+            if( signalStrength.isGsm)
             {
-                definations.elementAt(8).toInt()
-            }
-            else if( signalStrength.isGsm && signalStrength.gsmSignalStrength!=99) // signalStrength.isGsm can catch on both GSM and LTE|GSM!
-            {
-                signalStrength.gsmSignalStrength
+                if(signalStrength.gsmSignalStrength != 99)
+                    ERROR
+                else
+                    signalStrength.gsmSignalStrength
             }
             else
             {
@@ -77,6 +77,5 @@ class phone_recp_listener() : PhoneStateListener()
         {
             ERROR
         }
-        Log.d("test", "Size :" + definations.size + " network manager: " + telephone_manager!!.networkType + " size is: " +  definations.elementAt(8) + " ASU is " + asu_level)
     }
 }
